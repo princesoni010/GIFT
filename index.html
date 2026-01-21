@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Birthday Surprise 🎉</title>
+
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Lobster&display=swap" rel="stylesheet">
+
+<style>
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    overflow:hidden;
+    background:#0b0b0b;
+    font-family:'Fredoka One',cursive;
+    color:white;
+}
+
+/* ---------- PAGE 1 ---------- */
+#page1{
+    position:fixed;
+    inset:0;
+    background:radial-gradient(circle,#2a2a2a,#000);
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    z-index:10;
+}
+
+.gift{
+    font-size:130px;
+    cursor:pointer;
+    animation:float 3s ease-in-out infinite;
+    filter:drop-shadow(0 0 25px gold);
+}
+
+.tap{
+    margin-top:20px;
+    font-size:22px;
+    color:#ffd700;
+    letter-spacing:2px;
+    animation:blink 1.2s infinite;
+}
+
+.shake{ animation:shake .5s infinite; }
+
+/* ---------- PAGE 2 ---------- */
+#page2{
+    position:fixed;
+    inset:0;
+    display:none;
+    opacity:0;
+    background:linear-gradient(-45deg,#ff0080,#7928ca,#2afadf);
+    background-size:400% 400%;
+    animation:gradientBG 8s ease infinite;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    padding:20px;
+}
+
+.photo{
+    width:260px;
+    height:260px;
+    background:#fff;
+    padding:10px;
+    border-radius:20px;
+    transform:scale(0);
+    animation:pop 1s forwards .3s;
+}
+
+.photo img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    border-radius:15px;
+}
+
+h1{
+    font-family:'Lobster',cursive;
+    font-size:56px;
+    margin:20px 0 10px;
+    text-shadow:3px 3px #000;
+    transform:scale(0);
+    animation:pop 1s forwards .6s;
+}
+
+/* ---------- SHAYARI ---------- */
+.shayari{
+    margin-top:15px;
+    max-width:360px;
+    font-size:18px;
+    line-height:1.6;
+}
+
+.line{
+    opacity:0;
+    transform:translateY(25px);
+    animation:reveal 1s forwards;
+}
+
+.line:nth-child(1){animation-delay:1.2s}
+.line:nth-child(2){animation-delay:2.6s}
+.line:nth-child(3){animation-delay:4s}
+.line:nth-child(4){animation-delay:5.4s}
+
+.highlight{
+    color:#ffe600;
+    font-size:19px;
+    text-shadow:0 0 12px rgba(255,255,255,.6);
+}
+
+/* ---------- FINAL WISH ---------- */
+.final-wish{
+    margin-top:25px;
+    font-size:17px;
+    line-height:1.6;
+    color:#fff6c5;
+    opacity:0;
+    animation:reveal 1s forwards;
+    animation-delay:7.2s;
+    text-shadow:0 0 10px rgba(255,200,100,.6);
+}
+
+/* ---------- FLASH ---------- */
+#flash{
+    position:fixed;
+    inset:0;
+    background:white;
+    opacity:0;
+    z-index:100;
+    pointer-events:none;
+    transition:opacity .2s;
+}
+
+/* ---------- ANIMATIONS ---------- */
+@keyframes float{
+    50%{transform:translateY(-20px)}
+}
+@keyframes blink{
+    50%{opacity:.4}
+}
+@keyframes shake{
+    0%{transform:rotate(0)}
+    25%{transform:rotate(-8deg)}
+    50%{transform:rotate(8deg)}
+    75%{transform:rotate(-8deg)}
+}
+@keyframes pop{
+    0%{transform:scale(0)}
+    80%{transform:scale(1.2)}
+    100%{transform:scale(1)}
+}
+@keyframes reveal{
+    to{opacity:1;transform:translateY(0)}
+}
+@keyframes gradientBG{
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}
+</style>
+</head>
+
+<body>
+
+<audio id="music" src="birthday_song.mp3"></audio>
+<div id="flash"></div>
+
+<!-- PAGE 1 -->
+<div id="page1" onclick="openGift()">
+    <div class="gift" id="gift">🎁</div>
+    <div class="tap">Tap to Open</div>
+</div>
+
+<!-- PAGE 2 -->
+<div id="page2">
+    <div class="photo">
+        <img src="123.png">
+    </div>
+
+    <h1>Happy Birthday  TO YOU!🎂</h1>
+
+    <div class="shayari">
+        <p class="line">Dua hai ki University mein tera aisa naam ho,</p>
+        <p class="line">Exam ka har paper tere liye aam ho 📝😌</p>
+        <p class="line">Tu top kare aur poori duniya dekhti reh jaaye,</p>
+        <p class="line highlight">
+            Par dhyaan rakhna… topper banne ke chakkar mein  
+            party dena na bhool jaaye! 🍕🥳😏
+        </p>
+    </div>
+
+    <!-- FINAL WISH -->
+    <div class="final-wish">
+        wishing a very happy Birthday to you !
+        <br><br>
+        Aur is pavitra din par,  
+        **Ram Mandir Sthapna Diwas** ki bhi hardik badhai 🙏🛕  
+        Jai Shree Ram 🚩
+    </div>
+</div>
+
+<script>
+function openGift(){
+    const gift=document.getElementById("gift");
+    const page1=document.getElementById("page1");
+    const page2=document.getElementById("page2");
+    const flash=document.getElementById("flash");
+    const music=document.getElementById("music");
+
+    gift.classList.add("shake");
+    music.play();
+
+    setTimeout(()=>{
+        flash.style.opacity="1";
+
+        setTimeout(()=>{
+            flash.style.opacity="0";
+            page1.style.display="none";
+            page2.style.display="flex";
+
+            setTimeout(()=>{
+                page2.style.opacity="1";
+                fireConfetti();
+            },50);
+        },150);
+    },900);
+}
+
+/* ---------- LONG CRACKERS ---------- */
+function fireConfetti(){
+    let duration = 9000;
+    let end = Date.now() + duration;
+
+    (function frame(){
+        confetti({particleCount:8,angle:60,spread:70,origin:{x:0}});
+        confetti({particleCount:8,angle:120,spread:70,origin:{x:1}});
+        if(Date.now()<end) requestAnimationFrame(frame);
+    })();
+
+    confetti({particleCount:250,spread:180,origin:{y:.6}});
+
+    setTimeout(()=>{
+        confetti({particleCount:180,spread:160,origin:{y:.8}});
+    },5500);
+}
+</script>
+
+</body>
+</html>
